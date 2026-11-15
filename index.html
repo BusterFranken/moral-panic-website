@@ -137,7 +137,7 @@
 <header class="site-header">
   <img src="assets/logo/logo-horizontal.png" alt="Moral Panic">
   <nav class="site-nav" aria-label="Main">
-    <a href="mailto:buster@moralpanic.show?subject=Moral%20Panic">Get in touch</a>
+    <a href="#contact" data-mail="buster" data-subject="Moral Panic">Get in touch</a>
   </nav>
 </header>
 
@@ -163,7 +163,7 @@
       </form>
       <div class="signup__done" role="status" tabindex="-1" hidden>
         <p class="signup__done-title">You're on the list</p>
-        <p class="signup__done-text">Check your inbox and confirm your email. Then we'll message you when the Jensen interview drops.</p>
+        <p class="signup__done-text">We'll message you when the Jensen interview drops.</p>
       </div>
     </div>
   </section>
@@ -183,7 +183,7 @@
 
   <section class="contact" id="contact">
     <h2 class="section-title">Sponsor / Collaborate</h2>
-    <a class="contact__button" href="mailto:buster@moralpanic.show?subject=Moral%20Panic%3A%20sponsorship%20%2F%20collaboration">Get in touch <span aria-hidden="true">↗</span></a>
+    <a class="contact__button" href="#contact" data-mail="buster" data-subject="Moral Panic: sponsorship / collaboration">Get in touch <span aria-hidden="true">↗</span></a>
   </section>
 </main>
 
@@ -192,6 +192,23 @@
 </footer>
 
 <script>
+  // Email links: the address is not written in the page, so scrapers can't harvest it.
+  // It is assembled into a mailto: link only when someone points at, focuses or taps the link.
+  (function () {
+    var links = document.querySelectorAll('[data-mail]');
+    function arm(link) {
+      if (link.dataset.armed) return;
+      var address = link.dataset.mail + '\u0040' + ['moralpanic', 'show'].join('.');
+      link.href = 'mailto:' + address + '?subject=' + encodeURIComponent(link.dataset.subject || '');
+      link.dataset.armed = '1';
+    }
+    for (var i = 0; i < links.length; i++) {
+      ['pointerenter', 'focus', 'touchstart', 'mousedown'].forEach(function (type) {
+        links[i].addEventListener(type, function () { arm(this); }, { passive: true });
+      });
+    }
+  })();
+
   // Sends the signup to Kit in the background and swaps the form for the confirmation.
   (function () {
     var form = document.querySelector('[data-kit-form]');
