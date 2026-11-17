@@ -130,6 +130,15 @@
 
   /* ---- Footer ---- */
   .site-footer { padding: 20px var(--gutter); }
+
+  /* ---- Phones: header on one slim row, full-width signup button ---- */
+  @media (max-width: 560px) {
+    .site-header { flex-wrap: nowrap; gap: 16px; padding-top: 12px; padding-bottom: 12px; }
+    .site-header img { height: 34px; min-width: 0; max-width: 62%; object-fit: contain; object-position: left center; }
+    .site-nav { flex: 0 0 auto; font-size: 13px; letter-spacing: 0.1em; }
+    .site-nav a { white-space: nowrap; }
+    .signup__form button { flex: 1 1 100%; }
+  }
 </style>
 </head>
 <body>
